@@ -1,0 +1,9 @@
+body{
+    background-image: url(html/img/spacebackground.gif);
+}
+#block1{
+    width: 800px;
+    height: auto;
+    font-size: 45px;
+    justify-content: center;
+}
