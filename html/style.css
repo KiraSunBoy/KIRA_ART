@@ -1,0 +1,68 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('img/spacebackground.gif'); /* Замените на путь к вашему фоновому изображению */
+    font-size: 30px;
+    font-family:matura mt script capitals;
+    color: aliceblue;
+}
+
+#canvas {
+    border: 1px solid rgb(255, 255, 255);
+    cursor: crosshair;
+    background-color: white;
+}
+
+.controls {
+    margin-top: 10px;
+}
+#randomImage {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    cursor: pointer;
+}
+    #phraseDisplay {
+    position: fixed;
+    bottom: 140px;
+    right: 20px;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+}
+
+@keyframes moveImage {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+#randomImage.moving {
+    animation: moveImage 1s ; 
+}
+#Image.moving {
+    animation: moveImage 1s ; 
+}
+
+#BBcolor {
+    background-color: bisque;
+}
+#BBcolor2 {
+    background-color: coral;
+    color: black;
+    max-width: 600px;
+    padding: 20px;
+}
+
+#bodySpace {
+    color: chartreuse
+}

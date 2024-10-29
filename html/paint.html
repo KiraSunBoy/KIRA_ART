@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Paint</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <div class="controls">
+        <button id="saveButton">Save</button>
+        <label for="colorPicker" font-family:matura mt script capitals;>Color:</label>
+        <input type="color" id="colorPicker" value="#000000">
+        <label for="brushSize">Brush Size:</label>
+        <input type="number" id="brushSize" min="1" max="20" value="5">
+        <button id="eraseButton">Eraser</button>
+        <button id="fillButton">Fill</button>
+        <label for="bgImageInput">Upload Background Image:</label>
+        <input type="file" id="bgImageInput" accept="image/*">
+    </div>
+
+    <img id="randomImage" src="img/big-pack-of-my-ivy-artworks-v0-6xuchy0jg64d1.png" alt="Click me!">
+    <div id="phraseDisplay"></div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const saveButton = document.getElementById('saveButton');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSize = document.getElementById('brushSize');
+        const eraseButton = document.getElementById('eraseButton');
+        const fillButton = document.getElementById('fillButton');
+        const bgImageInput = document.getElementById('bgImageInput');
+        const randomImage = document.getElementById('randomImage');
+        const phraseDisplay = document.getElementById('phraseDisplay');
+    
+        let painting = false;
+        let erasing = false;
+    
+        const phrases = [
+            "Hello, how are you?",
+            "Keep up the great work!",
+            "What are you drawing today?",
+            "Nice colors!",
+            "You can do it!"
+        ];
+    
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+    
+        function endPosition() {
+            painting = false;
+            ctx.beginPath();
+        }
+    
+        function draw(e) {
+            if (!painting) return;
+            ctx.lineWidth = brushSize.value;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = erasing ? 'white' : colorPicker.value;
+    
+            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        }
+    
+        eraseButton.addEventListener('click', () => {
+            erasing = true;
+        });
+    
+        colorPicker.addEventListener('input', () => {
+            erasing = false;
+        });
+    
+        fillButton.addEventListener('click', () => {
+            ctx.fillStyle = colorPicker.value;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        });
+    
+        bgImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+    
+            reader.onload = function (event) {
+                const img = new Image();
+                img.onload = function () {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                };
+                img.src = event.target.result;
+            };
+    
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw);
+    
+        saveButton.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'drawing.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    
+        // Обработчик клика на randomImage с добавлением анимации
+        randomImage.addEventListener('click', () => {
+            randomImage.classList.add('moving');
+    
+            // Удаляем класс после завершения анимации, чтобы можно было снова запустить её при новом клике
+            randomImage.addEventListener('animationend', () => {
+                randomImage.classList.remove('moving');
+            });
+    
+            // Вывод случайной фразы
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            phraseDisplay.textContent = randomPhrase;
+            phraseDisplay.style.display = 'block';
+    
+            setTimeout(() => {
+                phraseDisplay.style.display = 'none';
+            }, 3000);  // Скрыть фразу через 3 секунды
+        });
+    </script>
+    <button><link rel="stylesheet" href="html/webb.html"></button>
